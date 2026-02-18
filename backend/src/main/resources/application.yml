@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: pact-lab-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pactlab
+    username: pactlab
+    password: pactlab_dev_pw
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
