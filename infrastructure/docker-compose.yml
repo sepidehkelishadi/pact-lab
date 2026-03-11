@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: pactlab-postgres
+    environment:
+      POSTGRES_DB: pactlab
+      POSTGRES_USER: pactlab
+      POSTGRES_PASSWORD: pactlab_dev_pw
+    ports:
+      - "5432:5432"
+    volumes:
+      - pactlab_pgdata:/var/lib/postgresql/data
+
+volumes:
+  pactlab_pgdata:
