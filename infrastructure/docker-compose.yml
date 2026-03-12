@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: pactlab
       POSTGRES_PASSWORD: pactlab_dev_pw
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pactlab_pgdata:/var/lib/postgresql/data
 
