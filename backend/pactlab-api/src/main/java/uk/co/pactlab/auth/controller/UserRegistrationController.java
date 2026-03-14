@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.auth.controller;
+package uk.co.pactlab.auth.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import uk.co.pactlab.pactlab.api.auth.dto.RegisterUserRequest;
-import uk.co.pactlab.pactlab.api.auth.dto.RegisterUserResponse;
-import uk.co.pactlab.pactlab.api.auth.service.UserRegistrationService;
+import uk.co.pactlab.auth.dto.RegisterUserRequest;
+import uk.co.pactlab.auth.dto.RegisterUserResponse;
+import uk.co.pactlab.auth.service.UserRegistrationService;
 
 @RestController
 @RequestMapping("/api/auth")

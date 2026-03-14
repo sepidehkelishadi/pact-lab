@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.shared.dto;
+package uk.co.pactlab.shared.dto;
 
 import java.time.Instant;
 import java.util.Map;

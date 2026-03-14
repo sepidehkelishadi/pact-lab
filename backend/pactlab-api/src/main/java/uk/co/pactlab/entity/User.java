@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.auth.model;
+package uk.co.pactlab.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.auth.controller;
+package uk.co.pactlab.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -9,11 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import uk.co.pactlab.pactlab.api.auth.dto.RegisterUserRequest;
-import uk.co.pactlab.pactlab.api.auth.dto.RegisterUserResponse;
-import uk.co.pactlab.pactlab.api.auth.exception.UserAlreadyExistsException;
-import uk.co.pactlab.pactlab.api.auth.service.UserRegistrationService;
-import uk.co.pactlab.pactlab.api.shared.exception.GlobalExceptionHandler;
+import uk.co.pactlab.auth.dto.RegisterUserRequest;
+import uk.co.pactlab.auth.dto.RegisterUserResponse;
+import uk.co.pactlab.auth.exception.UserAlreadyExistsException;
+import uk.co.pactlab.auth.service.UserRegistrationService;
+import uk.co.pactlab.shared.exception.GlobalExceptionHandler;
 
 import java.time.Instant;
 import java.util.UUID;

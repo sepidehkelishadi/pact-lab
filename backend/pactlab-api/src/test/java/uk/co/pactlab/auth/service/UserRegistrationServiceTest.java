@@ -1,12 +1,12 @@
-package uk.co.pactlab.pactlab.api.auth.service;
+package uk.co.pactlab.auth.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import uk.co.pactlab.pactlab.api.auth.dto.RegisterUserRequest;
-import uk.co.pactlab.pactlab.api.auth.dto.RegisterUserResponse;
-import uk.co.pactlab.pactlab.api.auth.exception.UserAlreadyExistsException;
-import uk.co.pactlab.pactlab.api.auth.model.User;
-import uk.co.pactlab.pactlab.api.auth.repository.UserRepository;
+import uk.co.pactlab.auth.dto.RegisterUserRequest;
+import uk.co.pactlab.auth.dto.RegisterUserResponse;
+import uk.co.pactlab.auth.exception.UserAlreadyExistsException;
+import uk.co.pactlab.entity.User;
+import uk.co.pactlab.repository.UserRepository;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;

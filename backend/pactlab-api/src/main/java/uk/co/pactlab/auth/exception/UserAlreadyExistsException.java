@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.auth.exception;
+package uk.co.pactlab.auth.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
 

@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.config;
+package uk.co.pactlab.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

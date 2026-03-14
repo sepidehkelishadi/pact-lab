@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.auth.dto;
+package uk.co.pactlab.auth.dto;
 
 import java.time.Instant;
 import java.util.UUID;

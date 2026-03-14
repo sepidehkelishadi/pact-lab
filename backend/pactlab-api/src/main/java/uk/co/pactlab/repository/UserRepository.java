@@ -1,7 +1,7 @@
-package uk.co.pactlab.pactlab.api.auth.repository;
+package uk.co.pactlab.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import uk.co.pactlab.pactlab.api.auth.model.User;
+import uk.co.pactlab.entity.User;
 
 import java.util.UUID;
 

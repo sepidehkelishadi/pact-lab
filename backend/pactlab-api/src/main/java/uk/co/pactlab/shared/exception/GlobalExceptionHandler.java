@@ -1,4 +1,4 @@
-package uk.co.pactlab.pactlab.api.shared.exception;
+package uk.co.pactlab.shared.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,8 +6,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import uk.co.pactlab.pactlab.api.auth.exception.UserAlreadyExistsException;
-import uk.co.pactlab.pactlab.api.shared.dto.ApiErrorResponse;
+import uk.co.pactlab.auth.exception.UserAlreadyExistsException;
+import uk.co.pactlab.shared.dto.ApiErrorResponse;
 
 import java.time.Instant;
 import java.util.Map;
