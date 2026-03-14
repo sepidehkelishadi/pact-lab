@@ -1,0 +1,14 @@
+ALTER TABLE user_profiles
+RENAME COLUMN username TO display_name;
+
+ALTER TABLE users
+ALTER COLUMN created_at TYPE TIMESTAMPTZ
+USING created_at AT TIME ZONE 'UTC';
+
+ALTER TABLE users
+ALTER COLUMN updated_at TYPE TIMESTAMPTZ
+USING updated_at AT TIME ZONE 'UTC';
+
+ALTER TABLE user_profiles
+ALTER COLUMN updated_at TYPE TIMESTAMPTZ
+USING updated_at AT TIME ZONE 'UTC';
