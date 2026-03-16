@@ -28,4 +28,6 @@ management:
 
 app:
   version: dev
-
+  jwt:
+    secret: your-very-long-secret-key-that-is-at-least-32-characters
+    expiration-ms: 86400000
