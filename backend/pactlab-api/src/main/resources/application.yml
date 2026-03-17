@@ -4,11 +4,22 @@ server:
 spring:
   application:
     name: pact-lab-backend
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   datasource:
-    url: jdbc:postgresql://localhost:5433/pactlab
-    username: pactlab
-    password: pactlab_dev_pw
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/pactlab}
+    username: ${DB_USERNAME:pactlab}
+    password: ${DB_PASSWORD:pactlab_dev_pw}
 
   jpa:
     hibernate:
@@ -28,4 +39,10 @@ management:
 
 app:
   version: dev
+  jwt:
+    secret: ${JWT_SECRET:your-very-long-secret-key-that-is-at-least-32-characters}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
 
+  password-reset:
+    token-expiration-minutes: ${PASSWORD_RESET_TOKEN_EXPIRATION_MINUTES:30}
+    reset-url-base: ${PASSWORD_RESET_URL_BASE:http://localhost:3000/reset-password?token=}
