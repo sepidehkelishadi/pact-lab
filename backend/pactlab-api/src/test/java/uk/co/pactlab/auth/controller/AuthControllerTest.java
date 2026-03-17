@@ -9,12 +9,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import uk.co.pactlab.auth.dto.ForgotPasswordRequest;
+import uk.co.pactlab.auth.dto.ForgotPasswordResponse;
 import uk.co.pactlab.auth.dto.LoginUserRequest;
 import uk.co.pactlab.auth.dto.LoginUserResponse;
 import uk.co.pactlab.auth.dto.RegisterUserRequest;
 import uk.co.pactlab.auth.dto.RegisterUserResponse;
-import uk.co.pactlab.auth.exception.InvalidCredentialsException;
+import uk.co.pactlab.auth.dto.ResetPasswordRequest;
+import uk.co.pactlab.auth.dto.ResetPasswordResponse;
 import uk.co.pactlab.auth.exception.EmailAlreadyExistsException;
+import uk.co.pactlab.auth.exception.InvalidCredentialsException;
+import uk.co.pactlab.auth.exception.InvalidPasswordResetTokenException;
 import uk.co.pactlab.auth.service.AuthService;
 import uk.co.pactlab.shared.exception.GlobalExceptionHandler;
 
@@ -39,7 +44,7 @@ class AuthControllerTest {
 
     @Test
     void returnsCreatedUser() throws Exception {
-        AuthService authService = new AuthService(null, null, null) {
+        AuthService authService = new AuthService(null, null, null, null, null, null, "https://example.com/reset?token=") {
             @Override
             public RegisterUserResponse register(RegisterUserRequest request) {
                 return new RegisterUserResponse(
@@ -64,7 +69,7 @@ class AuthControllerTest {
 
     @Test
     void returnsValidationErrorsForInvalidRegisterRequest() throws Exception {
-        mockMvc = buildMockMvc(new AuthService(null, null, null));
+        mockMvc = buildMockMvc(new AuthService(null, null, null, null, null, null, "https://example.com/reset?token="));
 
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -77,7 +82,7 @@ class AuthControllerTest {
 
     @Test
     void returnsConflictForDuplicateEmail() throws Exception {
-        AuthService authService = new AuthService(null, null, null) {
+        AuthService authService = new AuthService(null, null, null, null, null, null, "https://example.com/reset?token=") {
             @Override
             public RegisterUserResponse register(RegisterUserRequest request) {
                 throw new EmailAlreadyExistsException("sepideh@example.com");
@@ -94,7 +99,7 @@ class AuthControllerTest {
 
     @Test
     void returnsLoggedInUserWithToken() throws Exception {
-        AuthService authService = new AuthService(null, null, null) {
+        AuthService authService = new AuthService(null, null, null, null, null, null, "https://example.com/reset?token=") {
             @Override
             public LoginUserResponse login(LoginUserRequest request) {
                 return new LoginUserResponse(
@@ -119,7 +124,7 @@ class AuthControllerTest {
 
     @Test
     void returnsUnauthorizedForInvalidLogin() throws Exception {
-        AuthService authService = new AuthService(null, null, null) {
+        AuthService authService = new AuthService(null, null, null, null, null, null, "https://example.com/reset?token=") {
             @Override
             public LoginUserResponse login(LoginUserRequest request) {
                 throw new InvalidCredentialsException();
@@ -132,6 +137,57 @@ class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(new LoginUserRequest("sepideh@example.com", "WrongPass1"))))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.message").value("Invalid username or password"));
+    }
+
+    @Test
+    void returnsForgotPasswordResponse() throws Exception {
+        AuthService authService = new AuthService(null, null, null, null, null, null, "https://example.com/reset?token=") {
+            @Override
+            public ForgotPasswordResponse forgotPassword(ForgotPasswordRequest request) {
+                return new ForgotPasswordResponse("If an account with that email exists, a password reset link has been sent.");
+            }
+        };
+        mockMvc = buildMockMvc(authService);
+
+        mockMvc.perform(post("/api/auth/forgot-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new ForgotPasswordRequest("sepideh@example.com"))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("If an account with that email exists, a password reset link has been sent."));
+    }
+
+    @Test
+    void returnsResetPasswordResponse() throws Exception {
+        AuthService authService = new AuthService(null, null, null, null, null, null, "https://example.com/reset?token=") {
+            @Override
+            public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
+                return new ResetPasswordResponse("Password reset successfully");
+            }
+        };
+        mockMvc = buildMockMvc(authService);
+
+        mockMvc.perform(post("/api/auth/reset-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new ResetPasswordRequest("reset-token", "NewSecret1", "NewSecret1"))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Password reset successfully"));
+    }
+
+    @Test
+    void returnsBadRequestForInvalidResetToken() throws Exception {
+        AuthService authService = new AuthService(null, null, null, null, null, null, "https://example.com/reset?token=") {
+            @Override
+            public ResetPasswordResponse resetPassword(ResetPasswordRequest request) {
+                throw new InvalidPasswordResetTokenException("Invalid or expired reset token");
+            }
+        };
+        mockMvc = buildMockMvc(authService);
+
+        mockMvc.perform(post("/api/auth/reset-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new ResetPasswordRequest("bad-token", "NewSecret1", "NewSecret1"))))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Invalid or expired reset token"));
     }
 
     private MockMvc buildMockMvc(AuthService authService) {
